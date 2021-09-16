@@ -1,11 +1,13 @@
 package com.kimmy.ExpenseTrackerREStAPI.controller;
 
 import com.kimmy.ExpenseTrackerREStAPI.entity.Category;
+import com.kimmy.ExpenseTrackerREStAPI.entity.DAO.CategoryTotal;
 import com.kimmy.ExpenseTrackerREStAPI.entity.Product;
 import com.kimmy.ExpenseTrackerREStAPI.exception.ApiRequestException;
 import com.kimmy.ExpenseTrackerREStAPI.repository.ProductRepository;
 import com.kimmy.ExpenseTrackerREStAPI.service.CategoryService;
 import com.kimmy.ExpenseTrackerREStAPI.service.serviceImpl.CategoryServiceImpl;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +41,11 @@ public class CategoryController {
         return categoryService.getCategories(userId);
     }
 
+    @GetMapping("/categorytotals")
+    public ResponseEntity<List<CategoryTotal>> getCategoriesTotalCost (HttpServletRequest request){
+        int userId = (int) request.getAttribute("userId");
+        return categoryService.getCategoriesAndTotalCost(userId);
+    }
 
 
     @PutMapping("/{id}")

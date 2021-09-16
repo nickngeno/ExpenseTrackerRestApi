@@ -1,11 +1,14 @@
 package com.kimmy.ExpenseTrackerREStAPI.service.serviceImpl;
 
 import com.kimmy.ExpenseTrackerREStAPI.entity.Category;
+import com.kimmy.ExpenseTrackerREStAPI.entity.DAO.CategoryTotal;
 import com.kimmy.ExpenseTrackerREStAPI.entity.Product;
 import com.kimmy.ExpenseTrackerREStAPI.exception.ApiRequestException;
 import com.kimmy.ExpenseTrackerREStAPI.repository.CategoryRepository;
 import com.kimmy.ExpenseTrackerREStAPI.repository.ProductRepository;
 import com.kimmy.ExpenseTrackerREStAPI.service.CategoryService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +27,12 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category getCategory(int userId, int categoryId) {
         return categoryRepository.findById(categoryId).orElseThrow(() -> new ApiRequestException("No such category found"));
+    }
+
+    @Override
+    public ResponseEntity<List<CategoryTotal>> getCategoriesAndTotalCost(int userId) {
+        List<CategoryTotal > categories =  categoryRepository.getCategoriesAndTotalCost(userId);
+        return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
     @Override
